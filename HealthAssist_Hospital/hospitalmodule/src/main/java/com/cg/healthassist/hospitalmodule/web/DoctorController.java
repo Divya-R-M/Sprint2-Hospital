@@ -1,5 +1,7 @@
 package com.cg.healthassist.hospitalmodule.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.healthassist.hospitalmodule.domain.Doctor;
+import com.cg.healthassist.hospitalmodule.exception.DoctorSpecializationException;
 import com.cg.healthassist.hospitalmodule.service.DoctorService;
 import com.cg.healthassist.hospitalmodule.service.MapValidationErrorService;
 
@@ -36,9 +39,14 @@ public class DoctorController {
 		Doctor newDoctor=doctorService.saveOrUpdate(doctor);
 		return new ResponseEntity<Doctor>(newDoctor,HttpStatus.CREATED);
 }
-	@GetMapping("/{doctorId}")
+	@GetMapping("/byId/{doctorId}")
 	public ResponseEntity<?> getDoctorById(@PathVariable String doctorId){
-		return new ResponseEntity<Doctor>(doctorService.findDoctorByDoctorId(doctorId),HttpStatus.OK);
+		return new ResponseEntity<Doctor>( doctorService.findDoctorByDoctorId(doctorId),HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/get/{specialization}")
+	public ResponseEntity<List<Doctor>> findByDoctorSpecialization(@PathVariable String specialization) throws DoctorSpecializationException{
+		return doctorService.findByDoctorSpecialization(specialization);
 	}
 	
 	@GetMapping("/all")
@@ -46,7 +54,7 @@ public class DoctorController {
 		return doctorService.findAllDoctors();
 	}
 	
-	@DeleteMapping("/{doctorId}")
+	@DeleteMapping("/delete/{doctorId}")
 	public ResponseEntity<?> deleteDoctor(@PathVariable String doctorId){
 		doctorService.deleteDoctorByDoctorId(doctorId);
 		return new ResponseEntity<String> ("Doctor with Id : "+ doctorId.toUpperCase() +" Deleted!",HttpStatus.OK);

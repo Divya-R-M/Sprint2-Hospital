@@ -4,18 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BedIDException extends RuntimeException {
+public class DoctorSpecializationException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BedIDException() {
+	public DoctorSpecializationException() {
 		super();
 	}
 
-	public BedIDException(String errMsg) {
+	public DoctorSpecializationException(String errMsg) {
 		super(errMsg);
 	}
 }
+

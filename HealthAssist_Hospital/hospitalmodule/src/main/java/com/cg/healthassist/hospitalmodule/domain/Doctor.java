@@ -5,8 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * Doctor domain will be used as data traveller object.
@@ -14,6 +20,8 @@ import javax.validation.constraints.Size;
  * @Author Divya and Charushi
  */
 @Entity
+//@Table(name = "Doctor")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Doctor {
 
 	@Id
@@ -29,7 +37,7 @@ public class Doctor {
 	private String specialization;
 	@NotBlank(message = "DoctorDepartment is required")
 	private String department;
-	@NotBlank(message = "DoctorPhNo is required")
+	@NotNull(message = "DoctorPhNo is required")
 	private long doctorPhNo;
 	
 	public Doctor() {
@@ -40,11 +48,11 @@ public class Doctor {
 		return id;
 	}
 
-	public void setId(long id) {
+    public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getDoctorName() {
+    public String getDoctorName() {
 		return doctorName;
 	}
 

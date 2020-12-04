@@ -1,5 +1,7 @@
 package com.cg.healthassist.hospitalmodule.service;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +45,16 @@ public class BedService {
 		}
 		bedRepository.delete(bed);
 	}
+	
+	public Bed update(Bed bed) {
+
+		try {
+			bed.setBedId(bed.getBedId().toUpperCase());
+			return bedRepository.save(bed);
+		} catch (Exception e) {
+			throw new BedIDException("BedId " + bed.getBedId() + "is already available");
+		}
+	}
+
 }
 
