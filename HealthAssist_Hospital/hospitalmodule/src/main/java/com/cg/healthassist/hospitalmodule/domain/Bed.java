@@ -16,6 +16,9 @@ import javax.validation.constraints.Size;
 @Entity
 public class Bed {
 
+	/*
+	 * creating instance variables for Bed class
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -25,11 +28,29 @@ public class Bed {
 	private String bedId;
 	@NotBlank(message = "BedType is required")
 	private String bedType;
-	
+
+	/*
+	 * creating non-parameterized constructor
+	 */
+
 	public Bed() {
 		super();
 	}
 
+	/*
+	 * creating a parameterized constructor to set the values passed as parameters
+	 * to respective instance variables while creating constructor object
+	 */
+
+	public Bed(String bedId, String bedType) {
+		super();
+		this.bedId = bedId;
+		this.bedType = bedType;
+	}
+
+	/*
+	 * Getters and Setter for Bed class
+	 */
 	public long getId() {
 		return id;
 	}
@@ -54,5 +75,4 @@ public class Bed {
 		this.bedType = bedType;
 	}
 
-	
 }

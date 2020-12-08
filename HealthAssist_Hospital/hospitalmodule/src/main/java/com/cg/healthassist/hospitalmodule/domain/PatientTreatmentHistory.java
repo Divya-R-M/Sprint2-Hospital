@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class PatientTreatmentHistory {
 
+	/*
+	 * creating instance variables for PatientTreatmentHistory class
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long historyId;
@@ -32,9 +35,31 @@ public class PatientTreatmentHistory {
 	@NotBlank(message = "TreatmentDate is required")
 	private String treatmentDate;
 	
+	/*
+	 * creating non-parameterized constructor 
+	 */
+	
 	public PatientTreatmentHistory() {
 		super();
 	}
+
+	/*
+	 *  creating a parameterized constructor to set the values passed as parameters to respective instance variables while creating constructor object 
+	 */
+	public PatientTreatmentHistory( String patientName, String patientId, int patientAge, String diagnosis,String doctorName, String treatmentDate) {
+		super();
+		this.patientName = patientName;
+		this.patientId = patientId;
+		this.patientAge = patientAge;
+		this.diagnosis = diagnosis;
+		this.doctorName = doctorName;
+		this.treatmentDate = treatmentDate;
+	}
+
+	/*
+	 * Getters and Setter for PatientTreatmentHistory class
+	 */
+	
 	public String getPatientId() {
 		return patientId;
 	}

@@ -17,47 +17,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.healthassist.hospitalmodule.domain.Doctor;
-import com.cg.healthassist.hospitalmodule.exception.DoctorSpecializationException;
 import com.cg.healthassist.hospitalmodule.service.DoctorService;
 import com.cg.healthassist.hospitalmodule.service.MapValidationErrorService;
 
+/*
+ * creating a class DoctorController which controls all the services related to Doctor
+ * and maps the services
+ */
 @RestController
 @RequestMapping("/doctors")
 public class DoctorController {
 
+	/*
+	 * DoctorService and MapValidationErrorService objects are instantiated with the
+	 * help of @Autowired
+	 */
 	@Autowired
 	private DoctorService doctorService;
-	
+
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
-	
+
 	@PostMapping("")
 	public ResponseEntity<?> createNewDoctor(@Valid @RequestBody Doctor doctor, BindingResult result) {
-		
+
 		ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationError(result);
-		if(errorMap!=null) return errorMap;
-		Doctor newDoctor=doctorService.saveOrUpdate(doctor);
-		return new ResponseEntity<Doctor>(newDoctor,HttpStatus.CREATED);
-}
-	@GetMapping("/byId/{doctorId}")
-	public ResponseEntity<?> getDoctorById(@PathVariable String doctorId){
-		return new ResponseEntity<Doctor>( doctorService.findDoctorByDoctorId(doctorId),HttpStatus.OK);
+		if (errorMap != null)
+			return errorMap;
+		Doctor newDoctor = doctorService.saveDoctor(doctor);
+		return new ResponseEntity<Doctor>(newDoctor, HttpStatus.CREATED);
 	}
-	
-	@GetMapping(value="/get/{specialization}")
-	public ResponseEntity<List<Doctor>> findByDoctorSpecialization(@PathVariable String specialization) throws DoctorSpecializationException{
-		return doctorService.findByDoctorSpecialization(specialization);
+
+	@GetMapping("/ById/{doctorId}")
+	public ResponseEntity<?> getDoctorById(@PathVariable String doctorId) {
+		return new ResponseEntity<Doctor>(doctorService.findDoctorByDoctorId(doctorId), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/all")
-	public Iterable<Doctor> getAllDoctors(){
+	public Iterable<Doctor> viewAllAvailableDoctors() {
 		return doctorService.findAllDoctors();
 	}
-	
+
 	@DeleteMapping("/delete/{doctorId}")
-	public ResponseEntity<?> deleteDoctor(@PathVariable String doctorId){
-		doctorService.deleteDoctorByDoctorId(doctorId);
-		return new ResponseEntity<String> ("Doctor with Id : "+ doctorId.toUpperCase() +" Deleted!",HttpStatus.OK);
+	public ResponseEntity<?> removeDoctor(@PathVariable("doctorId") String doctorId) {
+		doctorService.delete(doctorId);
+		return new ResponseEntity<String>("Doctor with Id : " + doctorId + " Deleted!", HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/updateDepartment/{id}/{department}")
+	public ResponseEntity<?> updateByDepartment(@PathVariable("id") String doctorId,
+			@PathVariable("department") String department) {
+		Doctor doctor = doctorService.updateDepartment(doctorId, department);
+		return new ResponseEntity<Doctor>(doctor, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/updatePhoneNo/{id}/{doctorPhNo}")
+	public ResponseEntity<?> updateByPhoneNumber(@PathVariable("id") String doctorId, @PathVariable Long doctorPhNo) {
+		Doctor doctor = doctorService.updatePhoneNo(doctorId, doctorPhNo);
+		return new ResponseEntity<Doctor>(doctor, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/ByCategory/{specialization}")
+	public List<Doctor> viewListBySpecialization(@PathVariable("specialization") String specialization) {
+		return doctorService.findByDoctorSpecialization(specialization);
+	}
+
 }

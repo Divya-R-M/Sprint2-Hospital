@@ -5,14 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * Doctor domain will be used as data traveller object.
@@ -20,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @Author Divya and Charushi
  */
 @Entity
-//@Table(name = "Doctor")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Doctor {
-
+     
+	/*
+	 * creating instance variables for Doctor class
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	@NotBlank(message = "DoctorName is required")
 	private String doctorName;
 	@NotBlank(message = "DoctorId is required")
@@ -40,19 +36,38 @@ public class Doctor {
 	@NotNull(message = "DoctorPhNo is required")
 	private long doctorPhNo;
 	
+	/*
+	 * creating non-parameterized constructor 
+	 */
+	
 	public Doctor() {
 		super();
 	}
 
-	public long getId() {
+	/*
+	 *  creating a parameterized constructor to set the values passed as parameters to respective instance variables while creating constructor object 
+	 */
+	public Doctor(String doctorName, String doctorId, String specialization, String department, long doctorPhNo) {
+		super();
+		this.doctorName = doctorName;
+		this.doctorId = doctorId;
+		this.specialization = specialization;
+		this.department = department;
+		this.doctorPhNo = doctorPhNo;
+	}
+
+	/*
+	 * Getters and Setter for Doctor class
+	 */
+	public Long getId() {
 		return id;
 	}
 
-    public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-    public String getDoctorName() {
+	public String getDoctorName() {
 		return doctorName;
 	}
 
@@ -91,5 +106,15 @@ public class Doctor {
 	public void setDoctorPhNo(long doctorPhNo) {
 		this.doctorPhNo = doctorPhNo;
 	}
+
+//	public List<Appoinment> getAppoinments() {
+//		return appoinments;
+//	}
+//
+//	public void setAppoinments(List<Appoinment> appoinments) {
+//		this.appoinments = appoinments;
+//	}
+
+    
 
 }
